@@ -18,7 +18,7 @@ cd PCEscripts
 %--------------------------------------------------------------------------
 %%%%%%%% USER INPUT HERE %%%%%%%%%%
 
-
+only_plot = 0; %set to 1 to produce plots from previously computed results files
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% for ROA PCE computation
 
@@ -86,7 +86,7 @@ for jj = 1:length(degVarray)
 
     % Compute PCE ROA
     veri_filename = str2func(strcat('veriROA_PCE_',verimethod));
-    if jj ~= 1
+    if jj ~= 1 && only_plot == 0
         veri_filename(sys,fns,filenames,numsets);
 
         %delete(filenames.intermedresultsROAPCE)
@@ -107,7 +107,9 @@ for jj = 1:length(degVarray)
         
         filenames.finalresultsROAstoch = strcat(filenames.resultsdirectory,'final_results_',system,'_V',num2str(numsets.degs.V_dU),'_var',num2str(sys.varfix(1,1)),'.mat');
         veri_filename = str2func('recover_ROAstoch');
-        veri_filename(sys,filenames,numsetsRE);
+        if only_plot == 0
+            veri_filename(sys,filenames,numsetsRE);
+        end
         delete(filenames.intermedresultsROAstoch)
 
     end

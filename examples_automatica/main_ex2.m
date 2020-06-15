@@ -18,7 +18,7 @@ cd PCEscripts
 %--------------------------------------------------------------------------
 %%%%%%%% USER INPUT HERE %%%%%%%%%%
 
-
+only_plot = 0; %set to 1 to produce plots from previously computed results files
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% for ROA PCE computation
 
@@ -81,10 +81,12 @@ filenames.finalresultsROAPCE      = strcat( filenames.resultsdirectory,'final_re
 
 % Compute PCE ROA
 veri_filename = str2func(strcat('veriROA_PCE_',verimethod));
+if only_plot == 0
+    veri_filename(sys,fns,filenames,numsets);
+    delete(filenames.intermedresultsROAPCE)
+end
 
-veri_filename(sys,fns,filenames,numsets);
 
-delete(filenames.intermedresultsROAPCE)
 
 filenames.intermedresultsROAstoch = strcat('intermediate_results_',system,'_',verimethod,'_p',num2str(sys.p),'.mat');
 filenames.filenamestoplot{1}      = strcat('final_results_',system,'_V',num2str(numsets.degs.V_dU)); %or enter each file manually
@@ -93,8 +95,11 @@ filenames.filenamestoplot{1}      = strcat('final_results_',system,'_V',num2str(
 
 filenames.finalresultsROAstoch = strcat(filenames.resultsdirectory,'final_results_',system,'_V',num2str(numsets.degs.V_dU),'_var',num2str(sys.varfix(1,1)),'.mat');
 veri_filename = str2func('recover_ROAstoch');
-veri_filename(sys,filenames,numsetsRE);
-delete(filenames.intermedresultsROAstoch)
+if only_plot == 0
+    veri_filename(sys,filenames,numsetsRE);
+    delete(filenames.intermedresultsROAstoch)
+end
+
 
     
 
