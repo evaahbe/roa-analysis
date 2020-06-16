@@ -8,17 +8,19 @@ numsets     = struct();
 numsetsRE   = struct();
 filenames   = struct();
 
-cd ../..
-addfolders = genpath('PCEscripts');
-addpath(addfolders);
-cd PCEscripts
-
+cd ..
+addfolders = addpath(genpath('examples_automatica'));
+addfolders = addpath(genpath('PCEprojection'));
+addfolders = addpath(genpath('plottingFilesPCE'));
+addfolders = addpath(genpath('resultsFiles'));
+addfolders = addpath(genpath('systemFiles'));
+addfolders = addpath(genpath('verificationROAPCE'));
 
 %--------------------------------------------------------------------------
 %--------------------------------------------------------------------------
 %%%%%%%% USER INPUT HERE %%%%%%%%%%
 
-only_plot = 0; %set to 1 to produce plots from previously computed results files
+only_plot = 1; %set to 1 to produce plots from previously computed results files
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% for ROA PCE computation
 
@@ -30,17 +32,16 @@ numsets.initVscale = 1e-4;   % this needs to be tuned once in the very beginning
 
 numsets.clean_thresh    = 1e-6;
 numsets.iteration_max   = 50;
-numsets.sdpsetting1     = sdpsettings('solver','mosek','verbose',0); 
-numsets.sdpsetting2     = sdpsettings('solver','mosek','verbose',0); 
+numsets.sdpsetting1     = sdpsettings('solver','mosek','verbose',1); 
+numsets.sdpsetting2     = sdpsettings('solver','mosek','verbose',1); 
 numsets.convCrit        = 1e-2;
 numsets.gfac            = 1e-4; %
 
 numsetsRE.clean_thresh    = 1e-6;
 numsetsRE.iteration_max   = 15;
-numsetsRE.sdpsetting1     = sdpsettings('solver','mosek','verbose',0); 
-numsetsRE.sdpsetting2     = sdpsettings('solver','mosek','verbose',0); 
+numsetsRE.sdpsetting1     = sdpsettings('solver','mosek','verbose',1); 
+numsetsRE.sdpsetting2     = sdpsettings('solver','mosek','verbose',1); 
 numsetsRE.convCrit        = 1e-2;
-
 
 
 % for PCE ROA computation   
@@ -87,8 +88,6 @@ if only_plot == 0
 end
 
 
-
-filenames.intermedresultsROAstoch = strcat('intermediate_results_',system,'_',verimethod,'_p',num2str(sys.p),'.mat');
 filenames.filenamestoplot{1}      = strcat('final_results_',system,'_V',num2str(numsets.degs.V_dU)); %or enter each file manually
 
 % Compute stochastic ROA for a fixed variance on initial condition
@@ -97,11 +96,8 @@ filenames.finalresultsROAstoch = strcat(filenames.resultsdirectory,'final_result
 veri_filename = str2func('recover_ROAstoch');
 if only_plot == 0
     veri_filename(sys,filenames,numsetsRE);
-    delete(filenames.intermedresultsROAstoch)
 end
 
-
-    
 
 ex2_roa_contour(filenames)
 ex2_plot(filenames)
