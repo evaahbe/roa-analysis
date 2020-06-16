@@ -47,7 +47,7 @@ function ex2_roa_contour(filenames)
         domlim = max(abs(domain));
         contourmatrix = (abs(contourmatrix)<=domlim).*contourmatrix + ((contourmatrix)>domlim).*domlim  -((contourmatrix)<-domlim).*domlim;
             
-        plot(contourmatrix(1,:)+xiep0(1),contourmatrix(2,:)+xiep0(1),'LineWidth',2,'Color',colors.mycolors(jj,:))
+        
  
         save(filestoplot_list{jj}, '-append','contourmatrix');
     end   

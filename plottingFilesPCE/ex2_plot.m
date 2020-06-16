@@ -1,6 +1,20 @@
 function ex2_plot(filenames)
 
-    load(filenames.filenamestoplot)
+    cd(filenames.resultsdirectory)
+    k = 0;
+    for i = 1:length(filenames.filenamestoplot)
+        file_list = dir('*.mat'); %load the file names into a list
+        for j = 1:length(file_list)
+            cur_file_name = file_list(j).name;
+            if (strfind(cur_file_name,filenames.filenamestoplot) == 1)
+                k = k+1;
+                filestoplot_list{k} = cur_file_name;
+            end
+        end
+    end
+    cd ..
+    
+    load(filestoplot_list{1}) %in this example there is only one
     contourmatrix = contourmatrix + xiep0;
     x = sdpvar(sys.xdim,1);
     xi = sdpvar((sys.p+1)*sys.xdim,1);
@@ -33,10 +47,14 @@ function ex2_plot(filenames)
     mycolors = colors.mycolors;
 
 
-    figure(1)
-    hold on   
+    width = 28;
+    height = 28;
+    roaplot = figure('Units','centimeters',...
+    'Position',[1 0.7 width height],...
+    'PaperPositionMode','auto');
+    hold on  
     
-    plot(xiep0(1), xiep0(2), 'ko','LineWidth',1.5)
+    plot(xiep0(1), xiep0(2), 'ko','LineWidth',2, 'HandleVisibility','off')
 
     plot(contourmatrix(1,:),contourmatrix(2,:),'-r','LineWidth',2)
 
@@ -61,7 +79,7 @@ function ex2_plot(filenames)
     for j = 1:length(xvec_mat)-3
         plot(xvec_mat_spec{j}(:,2),xvec_mat_spec{j}(:,3),'--k','LineWidth',2.2)
     end
-    lw = 1.2;
+
     set(gca,...
     'LineWidth', 1.5,...
     'Units','normalized',...                  
@@ -69,9 +87,9 @@ function ex2_plot(filenames)
     'FontSize',20)
     xlabel('$\bar{x}_{1_0}$','FontSize',35,'interpreter','latex');
     ylabel('$\bar{x}_{2_0}$','FontSize',35,'interpreter','latex');  
-    xlim([-1. 2]);
-    ylim([-3 5]);
-    legend(  '$\mathcal{R}_0$','$\bar{x}_0(t)$', '$x(t,c \in [0.9,1.1])$', 'LineWidth',lw,'FontSize',20,'NumColumns',1,'interpreter','latex')
+    xlim([-1 2]);
+    ylim([-3 6]);
+    legend(  '$\mathcal{R}_0$','$\bar{x}_0(t)$', '$x(t,c \in [0.9,1.1])$', 'LineWidth',1.2,'FontSize',20,'NumColumns',1,'interpreter','latex','Location','northeast')
 
 
 end

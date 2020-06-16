@@ -8,7 +8,7 @@ function ex1_plot(filenames)
         file_list = dir('*.mat'); %load the file names into a list
         for j = 1:length(file_list)
             cur_file_name = file_list(j).name;
-            if (strfind(cur_file_name,filenames.filenamestoplot) == 1)
+            if (strfind(cur_file_name,filenames.filenamestoplot{i}) == 1)
                 k = k+1;
                 filestoplot_list{k} = cur_file_name;
             end
@@ -58,7 +58,7 @@ function ex1_plot(filenames)
             
         plot(contourmatrix(1,:)+xiep0(1),contourmatrix(2,:)+xiep0(1),'LineWidth',2,'Color',colors.mycolors(jj,:))
 
-        legendentries{jj} =  strcat('$\partial(V) =$',num2str(numsetsRE.degs.V_dU),', $\hat{\sigma}_{ii} =$ [', num2str(sys.varfix(1,1)), ',', num2str(sys.varfix(2,2)), ']');
+        legendentries{jj} =  strcat('$\partial(V)=$',num2str(numsetsRE.degs.V_dU),', $\hat{\sigma}_{ii}=$[', num2str(sys.varfix(1,1)), ',', num2str(sys.varfix(2,2)), ']');
 
     end   
     
@@ -66,12 +66,12 @@ function ex1_plot(filenames)
     load VDP_LCtraj_mu07.mat
     x_lc = xtraj{2};
     plot(x_lc(:,1), x_lc(:,2),':k','LineWidth',1.5) 
-    legendentries{jj+1} = 'LC $(c=0.7)$';
+    legendentries{jj+1} = 'LC$(c=0.7)$';
 
     load VDP_LCtraj_mu13.mat
     x_lc = xtraj{2};
     plot(x_lc(:,1), x_lc(:,2),'--k','LineWidth',1.5)
-    legendentries{jj+2} = 'LC $(c=1.3)$';
+    legendentries{jj+2} = 'LC$(c=1.3)$';
     
 
     plot(xiep0(1), xiep0(2), 'ko','LineWidth',1.5)
@@ -82,9 +82,10 @@ function ex1_plot(filenames)
     'Units','normalized',...                  
     'FontSize',20)
     title('ROA estimates','FontSize',20)
-    legend(legendentries,'LineWidth',1.2,'FontSize',23,'NumColumns',1,'interpreter','latex')
+    legend(legendentries,'LineWidth',1.2,'FontSize',23,'NumColumns',1,'interpreter','latex','Location','southeast')
     xlabel('$\bar{x}_{1_0}$','FontSize',35,'interpreter','latex');
     ylabel('$\bar{x}_{2_0}$','FontSize',35,'interpreter','latex');  
+    axis([-2.2 3 -3.2 3.2])
 
 end
 
